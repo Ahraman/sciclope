@@ -26,18 +26,19 @@
  * 
  * Link: http://www.gnu.org/copyleft/gpl.html
  */
-
 /**
- * This file is the main entrypoint for web browser navigations.
+ * This file is the main entry point for web browser navigations.
  * 
  * @file
- * @ingroup entrypoint
  * @since 1.0.0
  */
 
-// The constant SC_ENTRY_POINT determines the entrypoint used to run SciClope. Here, it is set to 
+// The constant SC_ENTRY_POINT determines the entry point used to run SciClope. Here, it is set to 
 // the value 'index'. 
 define( 'SC_ENTRY_POINT', 'index' );
+
+// Call WebStart.php to set up the environment.
+require_once __DIR__ . '/includes/WebStart.php';
 
 // Run the main function.
 SCFIndexMain();
