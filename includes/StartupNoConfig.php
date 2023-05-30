@@ -17,37 +17,25 @@
  * Link: http://www.gnu.org/copyleft/gpl.html
  */
 /**
- * Common setup for all web requests.
+ * Handles the case where no configuration file was detected, or if it was not readable.
  * 
  * @file
  * @since 1.0.0
  */
 
-// Turn off content sniffing because it is a security vulnerability.
-header( 'X-Content-Type-Options: nosniff' );
+// Find the root path relative to the base URL website. The first step cuts off the portion after 
+// the '*.php' file being run, and the second step cuts off the name of the script file.
+$path = $_SERVER[ 'PHP_SELF' ];
+$path = mb_substr( $path, 0, mb_strpos( $path, '.php' ) );
+$path = mb_substr( $path, 0, mb_strrpos( $path, '/' ) + 1 );
 
-// The constant SCICLOPE defined to true marks this file as a valid entry point for Setup.php.
-define( 'SCICLOPE', true );
-
-// Load the startup helper functions.
-require_once __DIR__ . '/StartupUtils.php';
-
-if ( !defined( 'SC_CONFIG_CALLBACK' ) ) {
-    SCFDetectConfigFile();
-    if ( !is_readable( SC_CONFIG_FILE ) ) {
-        define( 'SC_CONFIG_CALLBACK', 'SCGWebStartNoConfig' );
-    } else {
-        define( 'SC_CONFIG_CALLBACK', 'SCGWebStartDefault' );
+if ( !function_exists( 'session_name' ) ) {
+    $installerStarted = false;
+} else {
+    if ( SCFIniGetBool( 'session.auto_start' ) ) {
+        session_name( 'sciclope_installer' );
     }
-}
 
-// Run Startup.php which does the bulk of the startup process.
-require_once __DIR__ . '/Startup.php';
-
-function SCGWebStartDefault() {
-}
-
-function SCGWebStartNoConfig() {
-    require_once __DIR__ . '/StartupNoConfig.php';
-    exit();
+    $res = session_start();
+    $installerStarted = $res && isset( $_SESSION[ 'installData' ] );
 }

@@ -24,6 +24,46 @@
  */
 
 /**
+ * Detects and returns the path of the configuration file for the installation, and stores the 
+ * result in the SC_CONFIG_FILE constant.
+ * 
+ * The configuration file is traditionally the file ```config.php``` at the root of the 
+ * installation path. However, the default value can be altered via the ```SCICLOPE_CONFIG``` 
+ * environment variable.
+ *
+ * @param string|null $installPath The installation path; defaults to the value retrieved by 
+ * ```SCFDetectInstallPath()``` if it is set to ```null```.
+ * @return string The path of the configuration file, or the ```SC_CONFIG_FILE``` 
+ * 
+ * @internal Only for use during Startup and Installer. Otherwise, use the ```SC_CONFIG_FILE``` 
+ * constant directly.
+ * @since 1.0.0
+ */
+function SCFDetectConfigFile( $installPath = null ) {
+    if ( !defined( 'SC_CONFIG_FILE' ) ) {
+        if ( $installPath === null ) {
+            $installPath = SCFDetectInstallPath();
+        }
+
+        // Lookup config file path.
+        $file = getenv( 'SCICLOPE_CONFIG' ) ?: 'config.php';
+
+        // If the value retrieved from SCICLOPE_CONFIG environment variable is an absolute path, 
+        // then  no modification is necessary. However, if it is not, or if the default value of 
+        // 'config.php'  was used, then prepend the $installPath to the relative file path.
+        // A file path is absolute if it starts with a slash (for Linux systems), or if it contains 
+        // a colon (for Windows systems).
+        if ( ( mb_strpos( $file, '/' ) === 0 ) || ( mb_strpos( $file, ':' ) === 1 ) ) {
+            $file = "$installPath/$file";
+        }
+
+        define( 'SC_CONFIG_FILE', $file );
+    }
+
+    return SC_CONFIG_FILE;
+}
+
+/**
  * Detect and return the installation path for SciClope, and store the result in the 
  * ```SC_INSTALL_PATH``` constant.
  * 
