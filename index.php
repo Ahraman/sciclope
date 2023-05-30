@@ -50,5 +50,5 @@ SCFIndexMain();
  * @since 1.0.0
  */
 function SCFIndexMain() {
-    echo 'Hello world!';
+    echo 'Hello world!<br />';
 }
