@@ -17,14 +17,14 @@
  * Link: http://www.gnu.org/copyleft/gpl.html
  */
 /**
- * The setup process common to all SciClope entry points.
+ * The startup process common to all SciClope entry points.
  *
  * The entry point (such as ```WebStart.php```) must do the following:
  * - define the ```SCICLOPE``` constant set to ```true```.
  * 
  * This file does the following:
- * - detect the installation path and assign it to the ```SC_INSTALL_PATH``` runtime constant and 
- *   the```$scgBaseDirectory``` global variable;
+ * - detect the installation path and assign it to the ```SC_INSTALL_PATH``` constant and the 
+ * ```$SCBaseDirectory``` global variable;
  * - Setup and register the autoloader.
  * 
  * @file

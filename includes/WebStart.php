@@ -17,13 +17,17 @@
  * Link: http://www.gnu.org/copyleft/gpl.html
  */
 /**
- * The setup process common to all web requests.
+ * Common setup for all web requests.
  * 
  * @file
  * @since 1.0.0
  */
 
+// Turn off content sniffing because it is a security vulnerability.
+header( 'X-Content-Type-Options: nosniff' );
+
 // The constant SCICLOPE defined to true marks this file as a valid entry point for Setup.php.
 define( 'SCICLOPE', true );
 
-require_once __DIR__ . '/Setup.php';
+// Run Startup.php which does the bulk of the startup process.
+require_once __DIR__ . '/Startup.php';
