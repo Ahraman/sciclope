@@ -45,6 +45,9 @@ if ( !defined( 'SC_ENTRY_POINT' ) ) {
     define( 'SC_ENTRY_POINT', 'unknown' );
 }
 
+global $SCBaseDirectory;
+$SCBaseDirectory = SCFDetectInstallPath();
+
 // Set the character encoded internally used by PHP for reading HTTP input and writing output. This 
 // is also the default encoding used by mbstring functions.
 mb_internal_encoding( 'UTF-8' );

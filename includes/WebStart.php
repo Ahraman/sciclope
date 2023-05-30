@@ -29,5 +29,8 @@ header( 'X-Content-Type-Options: nosniff' );
 // The constant SCICLOPE defined to true marks this file as a valid entry point for Setup.php.
 define( 'SCICLOPE', true );
 
+// Load the startup helper functions.
+require_once __DIR__ . '/StartupUtils.php';
+
 // Run Startup.php which does the bulk of the startup process.
 require_once __DIR__ . '/Startup.php';
