@@ -48,6 +48,8 @@ if ( !defined( 'SC_ENTRY_POINT' ) ) {
 global $SCBaseDirectory;
 $SCBaseDirectory = SCFDetectInstallPath();
 
+require SC_INSTALL_PATH . '/autoload.php';
+
 // Set the character encoded internally used by PHP for reading HTTP input and writing output. This 
 // is also the default encoding used by mbstring functions.
 mb_internal_encoding( 'UTF-8' );
