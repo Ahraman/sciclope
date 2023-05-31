@@ -54,6 +54,7 @@ $SCBaseDirectory = SCFDetectInstallPath();
 
 require SC_INSTALL_PATH . '/autoload.php';
 
+require SC_INSTALL_PATH . '/includes/Defines.php';
 require SC_INSTALL_PATH . '/includes/UtilFunctions.php';
 
 if ( defined( 'SC_CONFIG_CALLBACK' ) ) {
