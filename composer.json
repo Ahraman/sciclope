@@ -16,10 +16,12 @@
         }
     ],
     "require": {
+        "composer/semver": "3.3.2",
         "zordius/lightncandy": "1.2.6"
     },
     "config": {
         "optimize-autoloader": true,
+        "apcu-autoloader": true,
         "prepend-autoloader": false,
         "autoloader-suffix": "_sciclope_vendor"
     }

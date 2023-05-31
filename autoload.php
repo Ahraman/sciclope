@@ -27,4 +27,11 @@
 require_once __DIR__ . '/includes/ClassLoader.php';
 
 // Create and register the class loader.
-return ClassLoader::getDefault()->register();
+ClassLoader::getDefault()->register();
+
+// Composer AutoLoader.
+if ( is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
+    require_once __DIR__ . '/vendor/autoload.php';
+} elseif ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+    die( strtr( __DIR__, '\\', '/' )  . '/vendor/autoload.php exits but is not readable.' );
+}
