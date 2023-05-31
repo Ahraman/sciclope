@@ -23,6 +23,8 @@
  * @since 1.0.0
  */
 
+use LightnCandy\LightnCandy;
+
 // Find the root path relative to the base URL website. The first step cuts off the portion after 
 // the '*.php' file being run, and the second step cuts off the name of the script file.
 $path = $_SERVER[ 'PHP_SELF' ];
@@ -39,3 +41,13 @@ if ( !function_exists( 'session_name' ) ) {
     $res = session_start();
     $installerStarted = $res && isset( $_SESSION[ 'installData' ] );
 }
+
+$template = file_get_contents( __DIR__ . '/templates/NoConfig.mustache' );
+$code = LightnCandy::compile( $template );
+$renderer = eval( $code );
+echo $renderer( [ 
+    'path' => $path,
+    'version' => SC_VERSION,
+    'configExists' => file_exists( SC_CONFIG_FILE ),
+    'installerStarted' => $installerStarted,
+] );

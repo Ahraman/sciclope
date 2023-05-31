@@ -53,11 +53,11 @@ function SCFDetectConfigFile( $installPath = null ) {
         // 'config.php'  was used, then prepend the $installPath to the relative file path.
         // A file path is absolute if it starts with a slash (for Linux systems), or if it contains 
         // a colon (for Windows systems).
-        if ( ( mb_strpos( $file, '/' ) === 0 ) || ( mb_strpos( $file, ':' ) === 1 ) ) {
+        if ( ( mb_strpos( $file, '/' ) !== 0 ) && ( mb_strpos( $file, ':' ) !== 1 ) ) {
             $file = "$installPath/$file";
         }
 
-        define( 'SC_CONFIG_FILE', $file );
+        define( 'SC_CONFIG_FILE',  strtr( $file, '\\', '/' ) );
     }
 
     return SC_CONFIG_FILE;

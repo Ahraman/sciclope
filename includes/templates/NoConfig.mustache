@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8" />
+        <title>SciClope {{version}}</title>
+        <style media="screen">
+            body {
+                color: #000;
+                background-color: #fff;
+                font-family: sans-serif;
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 200%;
+            }
+
+            h2 {
+                font-size: 125%;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>SciClope {{version}}</h1>
+        <div>
+        {{#configExists}}
+            <p>The config.php file found but is not readable.</p>
+            <p>Correct file permissions and reload to fix the problem.</p>
+        {{/configExists}}
+        {{^configExists}}
+            <h2>Welcome to SciClope installer!</h2>
+            {{#installerStarted}}
+                <p>Click <a href="{{path}}install/index.php">here</a> to complete the installation.</p>
+            {{/installerStarted}}
+            {{^installerStarted}}
+                <p>Click <a href="{{path}}install/index.php">here</a> to start installation.</p>
+            {{/installerStarted}}
+        {{/configExists}}
+        </div>
+    </body>
+</html>
