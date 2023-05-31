@@ -1,0 +1,26 @@
+{
+    "name": "sciclope/core",
+    "description": "Free and open-source wiki software developed by Ahraman",
+    "type": "project",
+    "keywords": [
+        "sciclope",
+        "wiki",
+        "encyclopedia"
+    ],
+    "license": "GPL-3.0-only",
+    "authors": [
+        {
+            "name": "Ahraman",
+            "email": "ahraman12000@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "zordius/lightncandy": "1.2.6"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "prepend-autoloader": false,
+        "autoloader-suffix": "_sciclope_vendor"
+    }
+}
