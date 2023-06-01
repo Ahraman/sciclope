@@ -17,7 +17,7 @@
  * Link: http://www.gnu.org/copyleft/gpl.html
  */
 /**
- * Contains the ClassLoader, which is responsible for autoloading classes.
+ * Contains the ```ClassLoader``` class, which is responsible for autoloading classes.
  * 
  * @file
  * @since 1.0.0
