@@ -32,22 +32,41 @@ define( 'SCICLOPE', true );
 // Load the startup helper functions.
 require_once __DIR__ . '/StartupUtils.php';
 
+// The constant SC_CONFIG_CALLBACK contains the name of a callback function for handling the 
+// configuration file.
 if ( !defined( 'SC_CONFIG_CALLBACK' ) ) {
     SCFDetectConfigFile();
     if ( !is_readable( SC_CONFIG_FILE ) ) {
-        define( 'SC_CONFIG_CALLBACK', 'SCGWebStartNoConfig' );
+        define( 'SC_CONFIG_CALLBACK', 'SCFWebStartNoConfig' );
     } else {
-        define( 'SC_CONFIG_CALLBACK', 'SCGWebStartDefault' );
+        define( 'SC_CONFIG_CALLBACK', 'SCFWebStartDefault' );
     }
 }
 
 // Run Startup.php which does the bulk of the startup process.
 require_once __DIR__ . '/Startup.php';
 
-function SCGWebStartDefault() {
+/**
+ * Default callback function for handling configuration.
+ * 
+ * Currently does nothing.
+ *
+ * @return void
+ */
+function SCFWebStartDefault() {
 }
 
-function SCGWebStartNoConfig() {
+/**
+ * Callback for when no configuration file was found by the system.
+ * 
+ * The function passes control to the StartupNoConfig.php, which displays a page directing the user 
+ * to either install SciClope, or fix the issues regarding the current configuration file.
+ *
+ * @return void
+ * 
+ * @since 1.0.0
+ */
+function SCFWebStartNoConfig() {
     require_once __DIR__ . '/StartupNoConfig.php';
     exit();
 }
