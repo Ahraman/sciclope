@@ -37,9 +37,9 @@ require_once __DIR__ . '/StartupUtils.php';
 if ( !defined( 'SC_CONFIG_CALLBACK' ) ) {
     SCFDetectConfigFile();
     if ( !is_readable( SC_CONFIG_FILE ) ) {
-        define( 'SC_CONFIG_CALLBACK', 'SCFWebStartNoConfig' );
+        define( 'SC_CONFIG_CALLBACK', 'SCFConfigCallbackNoConfig' );
     } else {
-        define( 'SC_CONFIG_CALLBACK', 'SCFWebStartDefault' );
+        define( 'SC_CONFIG_CALLBACK', 'SCFConfigCallbackDefault' );
     }
 }
 
@@ -53,7 +53,7 @@ require_once __DIR__ . '/Startup.php';
  *
  * @return void
  */
-function SCFWebStartDefault() {
+function SCFConfigCallbackDefault() {
 }
 
 /**
@@ -66,7 +66,7 @@ function SCFWebStartDefault() {
  * 
  * @since 1.0.0
  */
-function SCFWebStartNoConfig() {
+function SCFConfigCallbackNoConfig() {
     require_once __DIR__ . '/StartupNoConfig.php';
     exit();
 }
