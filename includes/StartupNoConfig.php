@@ -39,9 +39,11 @@ if ( !function_exists( 'session_name' ) ) {
     }
 
     $res = session_start();
-    $installerStarted = $res && isset( $_SESSION[ 'installData' ] );
+    $installerStarted = $res && isset( $_SESSION[ 'installation' ] );
 }
 
+// Load and display a template html file.
+// TODO: use an elegant and reusable template parser class.
 $template = file_get_contents( __DIR__ . '/templates/NoConfig.mustache' );
 $code = LightnCandy::compile( $template );
 $renderer = eval( $code );

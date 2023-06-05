@@ -17,7 +17,7 @@
  * Link: http://www.gnu.org/copyleft/gpl.html
  */
 /**
- * Contains ```RequestContext``` class, which encapsulates the contextual information for a 
+ * Contains the ```RequestContext``` class, which encapsulates the contextual information for a 
  * request.
  * 
  * @file
@@ -52,7 +52,7 @@ class RequestContext {
     private static $mainContext;
 
     /**
-     * Returns the main ```RequestContext``` instance used by SciClope.
+     * Returns the ```RequestContext``` instance associated with the main request.
      *
      * @return RequestContext Returns the main instance.
      * 

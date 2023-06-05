@@ -17,7 +17,7 @@
  * Link: http://www.gnu.org/copyleft/gpl.html
  */
 /**
- * Contains ```WebRequest``` class, which encapsulates information regarding a web request.
+ * Contains the ```WebRequest``` class, which encapsulates information regarding a web request.
  * 
  * @file
  * @since 1.0.0
@@ -65,7 +65,7 @@ class WebRequest {
      * @since 1.0.0
      */
     public function __construct() {
-        $this->requestTime = $_SESSION[ 'REQUEST_TIME_FLOAT' ];
+        $this->requestTime = $_SERVER[ 'REQUEST_TIME_FLOAT' ];
         $this->params = $_GET + $_POST;
         $this->queryParams = $_GET;
     }
@@ -134,8 +134,8 @@ class WebRequest {
         //
         // https://www.php.net/variables.external#language.variables.external.dot-in-names
         $name = strtr( $name, '.', '_' );
-        if ( isset( $this->params[$name] ) && !is_array( $this->params[$name] ) ) {
-            $val = $this->params[$name];
+        if ( isset( $this->params[ $name ] ) && !is_array( $this->params[ $name ] ) ) {
+            $val = $this->params[ $name ];
         } else {
             $val = $default;
         }
@@ -181,14 +181,14 @@ class WebRequest {
         //
         // https://www.php.net/variables.external#language.variables.external.dot-in-names
         $name = strtr( $name, '.', '_' );
-        if ( !isset( $arr[$name] ) ) {
+        if ( !isset( $arr[ $name ] ) ) {
             return $default;
         }
 
-        $val = $arr[$name];
+        $val = $arr[ $name ];
 
         // Optimization: Skip UTF-8 normalization for simple ASCII strings.
-        if ( !is_string($val) || preg_match( '/[^\x20-\x7E]/', $val ) !== 0 ) {
+        if ( !is_string( $val ) || preg_match( '/[^\x20-\x7E]/', $val ) !== 0 ) {
             // Perform UTF-8 normalization.
             $val = self::normalizeUnicode( $val );
         }
@@ -199,7 +199,7 @@ class WebRequest {
     private static function normalizeUnicode( $val ) {
         if ( is_array( $val ) ) {
             foreach ( $val as $key => $value ) {
-                $val[$key] = self::normalizeUnicode( $value );
+                $val[ $key ] = self::normalizeUnicode( $value );
             }
         } else {
             // Checking for existence of the function 'normalizer_normalize' shouldn't be done 
