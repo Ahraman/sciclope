@@ -44,7 +44,7 @@ if ( !function_exists( 'session_name' ) ) {
 
 // Load and display a template html file.
 // TODO: use an elegant and reusable template parser class.
-$template = file_get_contents( __DIR__ . '/templates/NoConfig.mustache' );
+$template = file_get_contents( __DIR__ . '/templates/no-config.mustache' );
 $code = LightnCandy::compile( $template );
 $renderer = eval( $code );
 echo $renderer( [ 
