@@ -59,6 +59,16 @@ class WebRequest {
      */
     private $queryParams;
 
+    
+    /**
+     * The protocol for the request URL.
+     *
+     * @var string
+     * 
+     * @since 1.0.0
+     */
+    private $protocol;
+
     /**
      * Construct a new ```WebRequest``` instance.
      * 
@@ -70,6 +80,43 @@ class WebRequest {
         $this->queryParams = $_GET;
     }
 
+    /**
+     * Returns the protocol for this request; also detects the protocol if not initialized already.
+     *
+     * @return string The protocol for the request URL. For HTTP and HTTPS protocols, the value is 
+     * 'http' and 'https', respectively.
+     * 
+     * @author Ahraman <ahraman12000@gmail.com>
+     * @since 1.0.0
+     */
+    public function getProtocol() {
+        if ( $this->protocol === null ) {
+            $this->protocol = self::detectProtocol();
+        }
+
+        return $this->protocol;
+    }
+
+    /**
+     * Detects the protocol for the current request, by looking at the server parameters.
+     *
+     * @return string Returns either 'http' or 'https' corresponding to their own respective 
+     * protocol.
+     * 
+     * @author Ahraman <ahraman12000@gmail.com>
+     * @since 1.0.0
+     */
+    private static function detectProtocol() {
+        if ( ( !empty( $_SERVER[ 'HTTPS' ] ) 
+                && $_SERVER[ 'HTTPS' ] !== 'off' ) 
+            || ( isset( $_SERVER[ 'HTTP_X_FORWARDED_PROTO' ] ) 
+                && $_SERVER[ 'HTTP_X_FORWARDED_PROTO' ] === 'https' ) ) {
+            return 'https';
+        } else {
+            return 'http';
+        }
+    }
+    
     /**
      * Fetches the value from the request parameter with the given name as an integer, and 
      * defaulting to a given value if the field with the given name was not found. Will always 
@@ -113,7 +160,7 @@ class WebRequest {
      * 
      * @since 1.0.0
      */
-    public function getParamRawText( $name, $default = '' ) {
+    public function getRawParamText( $name, $default = '' ) {
         return $this->getRawParam( $name, $default );
     }
 
