@@ -37,12 +37,12 @@ class WebInstaller extends Installer {
     /**
      * The list of pages in the main installer page sequence.
      *
-     * @var array
+     * @var string[]
      * 
      * @since 1.0.0
      * @author Ahraman <ahraman12000@gmail.com>
      */
-    private static $PAGE_SEQUENCE = [
+    private static $MAIN_PAGES = [
         'Welcome',
     ];
 
@@ -57,6 +57,26 @@ class WebInstaller extends Installer {
     protected $request;
 
     /**
+     * The output for the web installer. Handles what is displayed to the user.
+     * 
+     * @var WebInstallerOutput
+     * 
+     * @since 1.0.0
+     * @author Ahraman <ahraman12000@gmail.com>
+     */
+    public $output;
+
+    /**
+     * List of pages that have been filled.
+     *
+     * @var array
+     * 
+     * @since 1.0.0
+     * @author Ahraman <ahraman12000@gmail.com>
+     */
+    private $filledPages;
+
+    /**
      * An array of possible errors thrown by PHP at various junctures. The value is transient.
      * 
      * @var string[]
@@ -65,16 +85,6 @@ class WebInstaller extends Installer {
      * @author Ahraman <ahraman12000@gmail.com>
      */
     protected $errors;
-
-    /**
-     * Pages that have not yet been filled.
-     *
-     * @var array
-     * 
-     * @since 1.0.0
-     * @author Ahraman <ahraman12000@gmail.com>
-     */
-    private $remainingPages;
 
     /**
      * Constructs a new ```WebInstaller``` instance.
@@ -86,6 +96,7 @@ class WebInstaller extends Installer {
      */
     public function __construct( $request ) {
         $this->request = $request;
+        $this->output = new WebInstallerOutput( $this );
     }
 
     /**
@@ -137,9 +148,56 @@ class WebInstaller extends Installer {
      * @author Ahraman <ahraman12000@gmail.com>
      */
     public function run( $session ) {
-        $this->remainingPages = $session[ 'remainingPages' ] ?? [];
+        $this->filledPages = $session[ 'filledPages' ] ?? [];
+        $firstRemainingPage = $this->getFirstRemainingPage();
+        
+        // Find the page name
+        $pageName = $this->request->getParam( 'p', '' );
+        if ( !$pageName || !in_array( $pageName, self::$MAIN_PAGES ) ) {
+            // Requested page is not among the main pages.
+            $pageIndex = $firstRemainingPage;
+        } else {
+            // Locate the page in the main page sequence.
+            $pageIndex = array_search( $pageName, self::$MAIN_PAGES );
+
+            if ( $pageIndex > $firstRemainingPage ) {
+                $pageIndex = $firstRemainingPage;
+            }
+        }
+
+        // Get the name again, in case the index changed.
+        $pageName = self::$MAIN_PAGES[ $pageIndex ];
+        $page = $this->getPage( $pageName );
+
+        $result = $page->emit();
+
+        if ( $result === 'continue' ) {
+
+        }
 
         return $session;
+    }
+
+    private function getFirstRemainingPage() {
+        if ( count( $this->filledPages ) == 0 ) {
+            // No page has been filled, return the index of the first page, which is 0.
+            return 0;
+        } else {
+            // Return the index of the page after the last filled page.
+            return max( array_keys( $this->filledPages ) ) + 1;
+        }
+    }
+    
+    /**
+     * Undocumented function
+     *
+     * @param [type] $pageName
+     * @return WebInstallerPage
+     */
+    private function getPage( $pageName ) {
+        $pageClass = 'WebInstaller' . $pageName . 'Page';
+        $qualifiedClass = __NAMESPACE__ . '\\' . $pageClass; 
+        return new $qualifiedClass( $this );
     }
 
     /**
@@ -188,6 +246,4 @@ class WebInstaller extends Installer {
         $this->errors[] = $errstr;
         return false;
     }
-
-    
 }
